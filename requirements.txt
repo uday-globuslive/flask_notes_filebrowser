@@ -8,3 +8,11 @@ WTForms==3.0.1
 Werkzeug==2.3.7
 python-dotenv==1.0.0
 gunicorn==21.2.0
+
+# Production dependencies for Azure
+psycopg2-binary==2.9.9
+whitenoise==6.5.0
+
+# Optional: Performance and monitoring
+redis==4.6.0
+celery==5.3.4

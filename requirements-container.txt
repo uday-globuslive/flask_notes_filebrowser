@@ -1,0 +1,3 @@
+# Container-specific requirements
+# Add curl for health checks
+curl

@@ -1,5 +1,18 @@
 # Flask Notes App
 
+# Environment files (keep templates, ignore actual .env)
+.env
+.env.local
+.env.production
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+instance/
+test_*.db
+backup.json
+
 # Python
 __pycache__/
 *.py[cod]

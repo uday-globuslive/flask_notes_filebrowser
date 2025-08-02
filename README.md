@@ -1,6 +1,28 @@
 # Flask Notes App - Complete Beginner's Guide
 
-A comprehensive web application for creating, sharing, and managing notes and files with PostgreSQL database integration.
+A comprehensive web application for creating, sharing, and managing notes and files with **flexible database support** (SQLite & PostgreSQL).
+
+## 🗄️ Database Options
+
+**Choose your database based on your needs:**
+
+- **🔧 SQLite** - Perfect for development, testing, and small deployments
+- **🚀 PostgreSQL** - Recommended for production and high-traffic applications
+
+**Quick Setup:**
+```bash
+# Windows: Interactive database configuration
+configure-database.bat
+
+# Linux/Mac: Interactive database configuration  
+chmod +x configure-database.sh && ./configure-database.sh
+
+# Manual: Copy configuration files
+cp .env.sqlite .env      # For SQLite
+cp .env.postgresql .env  # For PostgreSQL
+```
+
+See [DATABASE_CONFIG.md](DATABASE_CONFIG.md) for detailed configuration options.
 
 ## 🚀 Features
 
