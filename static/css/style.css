@@ -1,0 +1,93 @@
+/* Custom CSS for Flask Notes App */
+
+.sidebar {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.main-content {
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.note-content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.file-drop-zone {
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    background-color: #f8f9ff;
+    transition: all 0.3s ease;
+}
+
+.file-drop-zone:hover {
+    border-color: #0056b3;
+    background-color: #e7f1ff;
+}
+
+.file-drop-zone.dragover {
+    border-color: #28a745;
+    background-color: #e8f5e8;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.public-badge {
+    background-color: #28a745;
+}
+
+.shared-badge {
+    background-color: #17a2b8;
+}
+
+.file-drop-badge {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.note-card {
+    transition: transform 0.2s ease;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.folder-card {
+    transition: transform 0.2s ease;
+}
+
+.folder-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.upload-progress {
+    display: none;
+}
+
+.file-preview {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 10px;
+    }
+    
+    .sidebar {
+        min-height: auto;
+        padding: 10px;
+    }
+}

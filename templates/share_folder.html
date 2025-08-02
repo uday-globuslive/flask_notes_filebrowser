@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Share Folder - Flask Notes App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="fas fa-share"></i> Share Folder: "{{ folder.name }}"</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username to share with</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                        <div class="form-text">Enter the username of the person you want to share this folder with.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Share Folder</button>
+                    <a href="{{ url_for('view_folder', folder_id=folder.id) }}" class="btn btn-secondary">Cancel</a>
+                </form>
+                
+                <hr>
+                <div class="alert alert-info">
+                    <h6>Current Sharing Status:</h6>
+                    {% if folder.is_public %}
+                    <p><i class="fas fa-globe"></i> This folder is public - anyone can view it</p>
+                    {% else %}
+                    <p><i class="fas fa-lock"></i> This folder is private</p>
+                    {% endif %}
+                    {% if folder.allow_file_drop and folder.is_public %}
+                    <p><i class="fas fa-upload"></i> File drop is enabled - anyone can upload files</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

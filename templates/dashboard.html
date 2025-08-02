@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Flask Notes App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Welcome, {{ current_user.username }}!</h2>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <a href="{{ url_for('create_note') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create New Note
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ url_for('create_folder') }}" class="btn btn-success">
+                    <i class="fas fa-folder-plus"></i> Create New Folder
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4><i class="fas fa-sticky-note"></i> Your Notes</h4>
+        {% if user_notes %}
+            {% for note in user_notes %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ note.title }}
+                        {% if note.is_public %}
+                        <span class="badge bg-success">Public</span>
+                        {% endif %}
+                    </h5>
+                    <p class="card-text">{{ note.content[:100] }}{% if note.content|length > 100 %}...{% endif %}</p>
+                    <p class="card-text">
+                        <small class="text-muted">Updated: {{ note.updated_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </p>
+                    <a href="{{ url_for('view_note', note_id=note.id) }}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{{ url_for('edit_note', note_id=note.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ url_for('share_note', note_id=note.id) }}" class="btn btn-info btn-sm">Share</a>
+                    <form method="POST" action="{{ url_for('delete_note', note_id=note.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">You haven't created any notes yet.</p>
+        {% endif %}
+
+        {% if shared_notes %}
+        <h5 class="mt-4"><i class="fas fa-share"></i> Shared with You</h5>
+        {% for note in shared_notes %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ note.title }} <span class="badge bg-info">Shared</span></h5>
+                <p class="card-text">{{ note.content[:100] }}{% if note.content|length > 100 %}...{% endif %}</p>
+                <p class="card-text">
+                    <small class="text-muted">By {{ note.user.username }}</small>
+                </p>
+                <a href="{{ url_for('view_note', note_id=note.id) }}" class="btn btn-primary btn-sm">View</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    
+    <div class="col-md-6">
+        <h4><i class="fas fa-folder"></i> Your Folders</h4>
+        {% if user_folders %}
+            {% for folder in user_folders %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-folder"></i> {{ folder.name }}
+                        {% if folder.is_public %}
+                        <span class="badge bg-success">Public</span>
+                        {% endif %}
+                        {% if folder.allow_file_drop %}
+                        <span class="badge bg-warning">File Drop</span>
+                        {% endif %}
+                    </h5>
+                    {% if folder.description %}
+                    <p class="card-text">{{ folder.description }}</p>
+                    {% endif %}
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Created: {{ folder.created_at.strftime('%Y-%m-%d') }} | 
+                            Files: {{ folder.files|length }}
+                        </small>
+                    </p>
+                    <a href="{{ url_for('view_folder', folder_id=folder.id) }}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{{ url_for('upload_file', folder_id=folder.id) }}" class="btn btn-success btn-sm">Upload</a>
+                    <a href="{{ url_for('share_folder', folder_id=folder.id) }}" class="btn btn-info btn-sm">Share</a>
+                    <form method="POST" action="{{ url_for('delete_folder', folder_id=folder.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure? This will delete all files in the folder.')">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">You haven't created any folders yet.</p>
+        {% endif %}
+
+        {% if shared_folders %}
+        <h5 class="mt-4"><i class="fas fa-share"></i> Shared with You</h5>
+        {% for folder in shared_folders %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-folder"></i> {{ folder.name }} 
+                    <span class="badge bg-info">Shared</span>
+                </h5>
+                {% if folder.description %}
+                <p class="card-text">{{ folder.description }}</p>
+                {% endif %}
+                <p class="card-text">
+                    <small class="text-muted">By {{ folder.user.username }}</small>
+                </p>
+                <a href="{{ url_for('view_folder', folder_id=folder.id) }}" class="btn btn-primary btn-sm">View</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

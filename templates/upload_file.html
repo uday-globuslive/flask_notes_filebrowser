@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Files - Flask Notes App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>
+                    <i class="fas fa-upload"></i> Upload Files to "{{ folder.name }}"
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="files" class="form-label">Select Files</label>
+                        <input type="file" class="form-control" id="files" name="files[]" multiple required>
+                        <div class="form-text">
+                            You can select multiple files. Allowed types: txt, pdf, png, jpg, jpeg, gif, doc, docx, xls, xlsx, ppt, pptx, zip, rar
+                        </div>
+                    </div>
+                    
+                    <div id="file-preview" class="mb-3"></div>
+                    
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-upload"></i> Upload Files
+                    </button>
+                    <a href="{{ url_for('view_folder', folder_id=folder.id) }}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('files').addEventListener('change', function(e) {
+    const filePreview = document.getElementById('file-preview');
+    filePreview.innerHTML = '';
+    
+    if (e.target.files.length > 0) {
+        const previewTitle = document.createElement('h6');
+        previewTitle.textContent = 'Selected Files:';
+        filePreview.appendChild(previewTitle);
+        
+        const fileList = document.createElement('ul');
+        fileList.className = 'list-group';
+        
+        Array.from(e.target.files).forEach(file => {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.innerHTML = `
+                <span><i class="fas fa-file"></i> ${file.name}</span>
+                <span class="badge bg-primary rounded-pill">${(file.size / 1024).toFixed(1)} KB</span>
+            `;
+            fileList.appendChild(listItem);
+        });
+        
+        filePreview.appendChild(fileList);
+    }
+});
+</script>
+{% endblock %}

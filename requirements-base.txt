@@ -1,0 +1,16 @@
+# Basic Flask dependencies - always required
+Flask==2.3.3
+Flask-SQLAlchemy==3.0.5
+Flask-Login==0.6.3
+Flask-Migrate==4.0.5
+Flask-WTF==1.1.1
+WTForms==3.0.1
+Werkzeug==2.3.7
+python-dotenv==1.0.0
+
+# Production server
+gunicorn==21.2.0
+
+# PostgreSQL support (optional - comment out if using SQLite only)
+# Uncomment the line below if you want PostgreSQL support
+# psycopg2-binary==2.9.9

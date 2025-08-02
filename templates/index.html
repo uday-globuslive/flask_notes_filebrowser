@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Flask Notes App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="jumbotron bg-primary text-white p-5 rounded mb-4">
+            <h1 class="display-4">Welcome to Notes App</h1>
+            <p class="lead">Create, share, and manage your notes and files easily!</p>
+            {% if not current_user.is_authenticated %}
+            <hr class="my-4">
+            <p>Join our community to start creating and sharing notes.</p>
+            <a class="btn btn-light btn-lg" href="{{ url_for('register') }}" role="button">Get Started</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3><i class="fas fa-globe"></i> Public Notes</h3>
+        {% if public_notes %}
+            {% for note in public_notes %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ note.title }}</h5>
+                    <p class="card-text">{{ note.content[:150] }}{% if note.content|length > 150 %}...{% endif %}</p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            By {{ note.user.username }} on {{ note.created_at.strftime('%Y-%m-%d') }}
+                        </small>
+                    </p>
+                    <a href="{{ url_for('view_note', note_id=note.id) }}" class="btn btn-primary btn-sm">Read More</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No public notes available.</p>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-6">
+        <h3><i class="fas fa-folder"></i> Public Folders</h3>
+        {% if public_folders %}
+            {% for folder in public_folders %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-folder"></i> {{ folder.name }}
+                        {% if folder.allow_file_drop %}
+                        <span class="badge bg-success">File Drop Enabled</span>
+                        {% endif %}
+                    </h5>
+                    {% if folder.description %}
+                    <p class="card-text">{{ folder.description }}</p>
+                    {% endif %}
+                    <p class="card-text">
+                        <small class="text-muted">
+                            By {{ folder.user.username }} on {{ folder.created_at.strftime('%Y-%m-%d') }}
+                        </small>
+                    </p>
+                    <a href="{{ url_for('view_folder', folder_id=folder.id) }}" class="btn btn-primary btn-sm">View Folder</a>
+                    {% if folder.allow_file_drop %}
+                    <a href="{{ url_for('public_drop', folder_id=folder.id) }}" class="btn btn-success btn-sm">Upload Files</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No public folders available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
